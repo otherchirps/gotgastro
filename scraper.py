@@ -12,7 +12,7 @@ root = lxml.html.fromstring(html)
 
 for tr in root.cssselect("#myTable tr"):
     td = tr.findall("td")
-    if td is None:
+    if td is None or len(td) == 0:
         continue
     #import pdb; pdb.set_trace()
     record={}
