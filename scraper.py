@@ -11,10 +11,13 @@ html = scraperwiki.scrape("http://www.foodauthority.nsw.gov.au/penalty-notices/d
 root = lxml.html.fromstring(html)
 
 for tr in root.cssselect("#myTable tr"):
-	td = tr.find("td")
-	record={}
-	record["penaltynotice"]=td[3]
-	record["tradename"]=td[0]
-	record["suburb"]=td[1]
-	scraperwiki.sqlite.save(unique_keys=['penaltynotice'], data=record)
+    td = tr.findall("td")
+    if td is None:
+        continue
+    #import pdb; pdb.set_trace()
+    record={}
+    record["penaltynotice"]=td[3].text_content()
+    record["tradename"]=td[0].text_content()
+    record["suburb"]=td[1].text_content()
+    scraperwiki.sqlite.save(unique_keys=['penaltynotice'], data=record)
 
